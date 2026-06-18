@@ -1,10 +1,9 @@
 def play_human(env):
-    """Permet à un humain de jouer pour vérifier les règles de l'environnement"""
     state = env.reset()
     done = False
     total_reward = 0.0
 
-    print("=== Mode humain : 0 = gauche, 1 = droite, q = quitter ===")
+    print("0 = gauche, 1 = droite, q = quitter")
     env.render()
 
     while not done:
@@ -12,7 +11,7 @@ def play_human(env):
         if choice == "q":
             break
         if choice not in ("0", "1"):
-            print("Entrée invalide.")
+            print("Entrée invalide")
             continue
 
         action = int(choice)
@@ -21,4 +20,4 @@ def play_human(env):
         env.render()
         print(f"-> état={state}, reward={reward}, terminé={done}")
 
-    print(f"Partie terminée. Récompense totale : {total_reward}")
+    print(f"Partie terminée ! Récompense totale : {total_reward}")

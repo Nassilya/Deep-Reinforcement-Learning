@@ -1,9 +1,5 @@
 import numpy as np
-def policy_evaluation(env, policy, V, gamma=0.99, theta=1e-6):
-    """
-    Calcule V(s) pour la politique donnée (déterministe : policy[s] = action)
-    theta = seuil de précision pour arrêter
-    """
+def policy_evaluation(env, policy, V, gamma=0.99, theta=1e-6): 
     while True:
         delta = 0                                   
         for s in env.states:
@@ -22,10 +18,6 @@ def policy_evaluation(env, policy, V, gamma=0.99, theta=1e-6):
 
 
 def policy_improvement(env, V, gamma=0.99):
-    """
-    Pour chaque état, choisit l'action qui maximise reward + gamma * V(s_next)
-    Renvoie la nouvelle politique
-    """
     new_policy = {}
     for s in env.states:
         if env.is_terminal(s):
@@ -35,14 +27,13 @@ def policy_improvement(env, V, gamma=0.99):
         for a in env.actions:
             q = 0.0
             for prob, s_next, reward in env.transition_prob(s, a):
-                q += prob * (reward + gamma * V[s_next])    # Q(s,a)
+                q += prob * (reward + gamma * V[s_next])    
             action_values.append(q)
         new_policy[s] = int(np.argmax(action_values))       
     return new_policy
 
 
 def policy_iteration(env, gamma=0.99):
-    """Algorithme complet : alterne évaluation et amélioration jusqu'à stabilité"""
     V = {s: 0.0 for s in env.states}                
     policy = {s: 0 for s in env.states}            
 
@@ -57,13 +48,7 @@ def policy_iteration(env, gamma=0.99):
 
 #------------------------------------------------------------------------------------------- Value Iteration
 def value_iteration(env, gamma=0.99, theta=1e-6):
-    """
-    Calcule directement les val optimales en prenant le max sur les actions
-    à chaque passage puis en déduit la politique optimale
-    """
     V = {s: 0.0 for s in env.states}               
-
-    #--- Phase 1 : convergence des valeurs optimales 
     while True:
         delta = 0
         for s in env.states:
@@ -74,14 +59,13 @@ def value_iteration(env, gamma=0.99, theta=1e-6):
             for a in env.actions:
                 q = 0.0
                 for prob, s_next, reward in env.transition_prob(s, a):
-                    q += prob * (reward + gamma * V[s_next])   # Q(s,a)
+                    q += prob * (reward + gamma * V[s_next])   
                 action_values.append(q)
             V[s] = max(action_values)               
             delta = max(delta, abs(v_old - V[s]))
         if delta < theta:
             break
 
-    #--- Phase 2 : extraire la politique optimale des valeurs 
     policy = {}
     for s in env.states:
         if env.is_terminal(s):
