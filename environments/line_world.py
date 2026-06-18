@@ -14,19 +14,13 @@ class LineWorld:
         self.agent_pos = None                      
 
     def reset(self):
-        """Replace l'agent au milieu et renvoie l'état initial"""
         self.agent_pos = self.size // 2            
         return self.agent_pos
 
     def is_terminal(self, state):
-        """True si l'état est une case terminale"""
         return state in self.terminal_states
 
     def step(self, action):
-        """
-        Applique une action depuis la position courante
-        Renvoie (nouvel_etat, reward, terminé)
-        """
         if action == 0:                            
             self.agent_pos -= 1
         else:                                      
@@ -41,12 +35,7 @@ class LineWorld:
 
         return self.agent_pos, reward, done
 
-    def transition_prob(self, s, a):
-        """
-        Modèle de l'environnement p(s', r | s, a)
-        Renvoie une liste de (proba, s_suivant, reward) possibles
-        Ici tout est déterministe : une seule transition de proba 1
-        """
+    def transition_prob(self, s, a):  
         if self.is_terminal(s):                    
             return [(1.0, s, 0.0)]
 
@@ -59,13 +48,12 @@ class LineWorld:
         return [(1.0, s_next, reward)]
 
     def render(self):
-        """Affichage 'pretty print' en console"""
         line = ""
         for i in range(self.size):
             if i == self.agent_pos:
-                line += "[A]"                      #A=agent
+                line += "[A]"                      
             elif i in self.terminal_states:
-                line += "[T]"                      #T=terminal
+                line += "[T]"                      
             else:
                 line += "[ ]"
         print(line)
