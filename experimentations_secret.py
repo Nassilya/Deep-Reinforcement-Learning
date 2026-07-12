@@ -34,9 +34,9 @@ def evaluer(env, Q, n_parties=20, max_steps=1000):
 def graphe_scalabilite():
     print("\n=== Graphique 1 : passage à l'échelle (DP vs TD) ===")
 
-    etats     = [5,      25,     8192,   65536]
-    temps_dp  = [0.01,   0.05,   341,    21600] 
-    temps_td  = [0.5,    2.0,    12.6,   63.9]   
+    etats     = [5,       25,      8192,   65536]
+    temps_dp  = [0.0001,  0.0007,  340.3,  21600]
+    temps_td  = [0.03,    0.28,    12.6,   63.9]  
 
     plt.figure(figsize=(11, 6))
     plt.plot(etats, temps_dp, marker="o", linewidth=2,
